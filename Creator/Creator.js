@@ -1,6 +1,6 @@
-function Creator(containerName){
-	this.row = 3;
-	this.col = 3;
+function Creator(col,row,containerName){
+	this.col = col;
+	this.row = row;
 	this.startPoint;
 	this.endPoint;
 	this.maze;
@@ -12,22 +12,26 @@ function Creator(containerName){
 		this.endPoint = endPoint
 	}
 
-	this.printMaze = function(){
+	this.printMaze = function(maze){
+		if(maze == undefined){
+			maze = this.maze
+		}
 		this.printHorizontalSide()
 		this.printBreak();
-		for (var i = 0; i < this.maze.length; i++) {
+		for (var i = 0; i < maze.length; i++) {
 			this.printVerticalSide()
-			for (var j = 0; j < this.maze[i].length; j++) {
-				if(this.maze[i][j] == ' '){
-					this.maze[i][j] = "&nbsp;"
+			for (var j = 0; j < maze[i].length; j++) {
+				if(maze[i][j] == ' '){
+					maze[i][j] = "&nbsp;"
 				}
-				var mazeSpace = $('<span>' +this.maze[i][j]+ '<span>')
+				var mazeSpace = $('<span>' + maze[i][j]+ '<span>')
 				this.mazeContainer.append(mazeSpace);
 			}
 			this.printVerticalSide()
 			this.printBreak();
 		}
 		this.printHorizontalSide()
+		this.printBreak();
 	}
 
 	this.printHorizontalSide = function(){
@@ -50,7 +54,20 @@ function Creator(containerName){
 		this.mazeContainer.append(newLine)
 	}
 
+	this.printFinishedMaze = function(containerName,maze){
+		this.mazeContainer = $("." + containerName);
+		this.printMaze(maze)
+	}
+
 	this.getMaze = function(){
 		return this.maze
+	}
+
+	this.getStartPoint = function(){
+		return this.startPoint
+	}
+
+	this.getEndPoint = function(){
+		return this.endPoint
 	}
 }
